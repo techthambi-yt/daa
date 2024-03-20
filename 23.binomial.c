@@ -18,7 +18,7 @@ int binomialCoefficient(int n, int k) {
 }
 
 int main() {
-    int n = 5, k = 2; // Example values, change as needed
+    int n = 5, k = 2; 
     int result = binomialCoefficient(n, k);
     printf("Binomial coefficient C(%d, %d) = %d\n", n, k, result);
     return 0;

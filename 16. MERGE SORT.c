@@ -1,17 +1,13 @@
 #include <stdio.h>
-
 void merge(int arr[], int l, int m, int r) {
     int i, j, k;
     int n1 = m - l + 1;
     int n2 = r - m;
-
     int L[n1], R[n2];
-
     for (i = 0; i < n1; i++)
         L[i] = arr[l + i];
     for (j = 0; j < n2; j++)
         R[j] = arr[m + 1 + j];
-
     i = 0;
     j = 0;
     k = l;
@@ -53,28 +49,21 @@ void printArray(int A[], int size) {
         printf("%d ", A[i]);
     printf("\n");
 }
-
 int main() {
     int arr[100];
     int arr_size;
-
     printf("Enter the number of elements in the array: ");
     scanf("%d", &arr_size);
-
     printf("Enter %d elements:\n", arr_size);
     for (int i = 0; i < arr_size; i++) {
         printf("Element %d: ", i + 1);
         scanf("%d", &arr[i]);
     }
-
     printf("Given array is \n");
     printArray(arr, arr_size);
-
     mergeSort(arr, 0, arr_size - 1);
-
     printf("\nSorted array is \n");
     printArray(arr, arr_size);
-
     return 0;
 }
 

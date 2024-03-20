@@ -1,81 +1,65 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define MAX_VERTICES 100
+#define V 3 // Number of vertices
 
-int graph[MAX_VERTICES][MAX_VERTICES];
-int path[MAX_VERTICES];
-int numVertices;
-
-void printSolution() {
+void printSolution(int path[]) {
     printf("Hamiltonian Circuit: ");
-    for (int i = 0; i < numVertices; i++) {
-        printf("%d ", path[i] + 1); // Adding 1 to vertex number to make it 1-indexed
-    }
-    printf("%d\n", path[0] + 1); // Complete the circuit
+    for (int i = 0; i < V; i++)
+        printf("%d ", path[i]);
+    printf("%d ", path[0]); // Print the first vertex again to complete the circuit
+    printf("\n");
 }
 
-bool isValid(int v, int pos) {
-    if (!graph[path[pos - 1]][v]) // If there is no edge between the last vertex in path and v
+bool isSafe(int v, bool graph[V][V], int path[], int pos) {
+    if (graph[path[pos - 1]][v] == 0)
         return false;
-
-    for (int i = 0; i < pos; i++) {
-        if (path[i] == v) // If v is already included in the path
+    for (int i = 0; i < pos; i++)
+        if (path[i] == v)
             return false;
-    }
-
     return true;
 }
 
-bool hamiltonianCircuitUtil(int pos) {
-    if (pos == numVertices) {
-        if (graph[path[pos - 1]][path[0]]) // If there is an edge between the last and first vertex
+bool hamiltonianCircuitUtil(bool graph[V][V], int path[], int pos) {
+    if (pos == V) {
+        // Check if there is an edge from the last vertex to the first vertex
+        if (graph[path[pos - 1]][path[0]] == 1)
             return true;
         else
             return false;
     }
-
-    for (int v = 1; v < numVertices; v++) { // Start from vertex 1 (0 is already in the path)
-        if (isValid(v, pos)) {
+    for (int v = 1; v < V; v++) {
+        if (isSafe(v, graph, path, pos)) {
             path[pos] = v;
-            if (hamiltonianCircuitUtil(pos + 1))
+            if (hamiltonianCircuitUtil(graph, path, pos + 1) == true)
                 return true;
             path[pos] = -1; // Backtrack
         }
     }
-
     return false;
 }
 
-void hamiltonianCircuit(int graph[][MAX_VERTICES], int n) {
-    numVertices = n;
-    for (int i = 0; i < numVertices; i++) {
-        path[i] = -1; // Initialize path array
+bool hamiltonianCircuit(bool graph[V][V]) {
+    int path[V];
+    for (int i = 0; i < V; i++)
+        path[i] = -1;
+    path[0] = 0;
+    if (hamiltonianCircuitUtil(graph, path, 1) == false) {
+        printf("No Hamiltonian circuit exists\n");
+        return false;
     }
-    path[0] = 0; // Start from vertex 0
-    if (!hamiltonianCircuitUtil(1)) {
-        printf("No Hamiltonian Circuit exists\n");
-        return;
-    }
-    printSolution();
+    printSolution(path);
+    return true;
 }
 
 int main() {
-    int n, e;
-    printf("Enter the number of vertices: ");
-    scanf("%d", &n);
-    printf("Enter the number of edges: ");
-    scanf("%d", &e);
-
-    printf("Enter the edges (u, v) one by one:\n");
-    for (int i = 0; i < e; i++) {
-        int u, v;
-        scanf("%d %d", &u, &v);
-        graph[u][v] = graph[v][u] = 1; // Assuming an undirected graph
+    bool graph[V][V];
+    printf("Enter the adjacency matrix (1 for edge, 0 for no edge):\n");
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            scanf("%d", &graph[i][j]);
+        }
     }
-
-    hamiltonianCircuit(graph, n);
-
+    hamiltonianCircuit(graph);
     return 0;
 }
-

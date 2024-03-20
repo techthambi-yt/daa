@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 void strassen(int A[2][2], int B[2][2], int C[2][2]) {
     int P[7], i, A1, A2, B1, B2;
 
@@ -35,14 +34,12 @@ int main() {
             scanf("%d", &A[i][j]);
         }
     }
-
     printf("Enter elements of matrix B (2x2):\n");
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++) {
             scanf("%d", &B[i][j]);
         }
     }
-
     strassen(A, B, C);
 
     printf("Resultant Matrix:\n");

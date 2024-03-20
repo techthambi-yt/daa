@@ -1,20 +1,13 @@
 #include <stdio.h>
 #include <limits.h>
-
-#define V 10 // Maximum number of vertices in the graph
-
-// Function to find the shortest paths between all pairs of vertices using Floyd's algorithm
+#define V 10
 void floydWarshall(int graph[][V], int n) {
     int dist[V][V];
-
-    // Initialize distance matrix
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             dist[i][j] = graph[i][j];
         }
     }
-
-    // Compute shortest paths
     for (int k = 0; k < n; k++) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -24,8 +17,6 @@ void floydWarshall(int graph[][V], int n) {
             }
         }
     }
-
-    // Print the shortest distances
     printf("Shortest distances between all pairs of vertices:\n");
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
@@ -38,14 +29,10 @@ void floydWarshall(int graph[][V], int n) {
         printf("\n");
     }
 }
-
 int main() {
     int n;
-
     printf("Enter the number of vertices in the graph: ");
     scanf("%d", &n);
-
-    // Input the adjacency matrix representing the graph
     int graph[V][V];
     printf("Enter the adjacency matrix of the graph (Enter INF for infinity):\n");
     for (int i = 0; i < n; i++) {
@@ -56,11 +43,6 @@ int main() {
             }
         }
     }
-
-    // Call Floyd's algorithm function
     floydWarshall(graph, n);
-
     return 0;
 }
-
-
